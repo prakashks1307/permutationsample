@@ -1,0 +1,36 @@
+﻿@model MyFirstCloudWebsite.Models.Permutation
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "indexForm"}))
+    {
+        <table>
+            <tr>
+                <td>N:</td>
+                <td>
+                    @Html.TextBoxFor(m => m.N)
+                </td>
+            </tr>
+            <tr>
+                <td>R:</td>
+                <td>
+                    @Html.TextBoxFor(m => m.R)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <a href="javascript:document.getElementById('indexForm').submit()">Calculate</a>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @ViewBag.Result
+                </td>
+            </tr>
+        </table>
+    }
+</div>
