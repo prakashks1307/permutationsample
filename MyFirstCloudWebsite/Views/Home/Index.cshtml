@@ -1,9 +1,20 @@
-﻿@model MyFirstCloudWebsite.Models.Permutation
+﻿@model MyFirstCloudWebsite.Models.InputValues
 @{
     ViewBag.Title = "Home Page";
 }
 
 <div class="jumbotron">
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            $('#btnPer, #btnCom').click(function ()
+            {
+                $('#hdnOperation').val($(this).attr('id').replace('btn', ''));
+                $('#indexForm').submit();
+            });
+
+        });
+    </script>
     @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "indexForm"}))
     {
         <table>
@@ -22,13 +33,15 @@
             <tr>
                 <td></td>
                 <td>
-                    <a href="javascript:document.getElementById('indexForm').submit()">Calculate</a>
+                    <input type="hidden" name="hdnOperation" id="hdnOperation" />
+                    <input type="button" id="btnPer" value="Calculate Permutation" class="btn btn-info" />
+                    <input type="button" id="btnCom" value="Calculate Combination" class="btn btn-info" />
                 </td>
             </tr>
             <tr>
                 <td></td>
                 <td>
-                    @ViewBag.Result
+                    @Html.Raw(@ViewBag.Result)
                 </td>
             </tr>
         </table>

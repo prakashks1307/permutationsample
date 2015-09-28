@@ -15,17 +15,44 @@ namespace MyFirstCloudWebsite.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(Permutation perm)
+        public ActionResult Index(FormCollection collection)
         {
-            if (perm.N < perm.R)
+            int nn, rr;
+            var inputValues = new InputValues();
+            string n = collection["N"];
+            bool nOK = Int32.TryParse(n, out nn);
+            string r = collection["R"];
+            bool rOK = Int32.TryParse(r, out rr);
+            if (nOK && rOK)
             {
-                ViewBag.Result = "n cannot be less than r.";
+                inputValues = new InputValues() { N = nn, R = rr };
+                if (nn < rr)
+                {
+                    ViewBag.Result = "n cannot be less than r.";
+                }
+                else
+                {
+                    var result = 0;
+                    var resultType = "";
+                    var type = collection["hdnOperation"];
+                    if (type.ToLower() == "per")
+                    {
+                        result = Calculator.GetPermutation(inputValues);
+                        resultType = "P";
+                    }
+                    else
+                    {
+                        result = Calculator.GetCombination(inputValues);
+                        resultType = "C";
+                    }
+                    ViewBag.Result = string.Format("<sub>{0}</sub>{1}<sub>{2}</sub> = {3}", nn, resultType, rr, result);
+                }
             }
             else
             {
-                ViewBag.Result = Calculator.GetPermutation(perm);
+                ViewBag.Result = "Please enter valid numbers for N and R.";
             }
-            return View(perm);
+            return View(inputValues);
         }
 
         public ActionResult About()

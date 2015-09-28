@@ -5,9 +5,9 @@ using System.Web;
 
 namespace MyFirstCloudWebsite.Models
 {
-    public class Permutation
+    public class InputValues
     {
-        public int N { get; set; }
-        public int R { get; set; }
+        public int? N { get; set; }
+        public int? R { get; set; }
     }
 }

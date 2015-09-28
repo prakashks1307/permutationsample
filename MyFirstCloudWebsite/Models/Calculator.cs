@@ -7,17 +7,26 @@ namespace MyFirstCloudWebsite.Models
 {
     public static class Calculator
     {
-        public static int GetPermutation(Permutation permutation)
+        public static int GetPermutation(InputValues value)
         {
-            return GetFactorial(permutation.N) / GetFactorial(permutation.N - permutation.R);
+            return GetFactorial(value.N) / GetFactorial(value.N - value.R);
         }
 
-        private static int GetFactorial(int n)
+        public static int GetCombination(InputValues value)
         {
-            if (n <= 0)
-                return 1;
-            else
-                return n * GetFactorial(n - 1);
+            return GetFactorial(value.N) / (GetFactorial(value.R) * GetFactorial(value.N - value.R));
+        }
+
+        private static int GetFactorial(int? n)
+        {
+            if (n.HasValue)
+            {
+                if (n <= 0)
+                    return 1;
+                else
+                    return n.Value * GetFactorial(n.Value - 1);
+            }
+            return 1;
         }
     }
 }
