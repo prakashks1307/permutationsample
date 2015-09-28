@@ -17,6 +17,7 @@ namespace MyFirstCloudWebsite.Controllers
         [HttpPost]
         public ActionResult Index(FormCollection collection)
         {
+
             int nn, rr;
             var inputValues = new InputValues();
             string n = collection["N"];
@@ -32,26 +33,35 @@ namespace MyFirstCloudWebsite.Controllers
                 }
                 else
                 {
-                    var result = 0;
-                    var resultType = "";
-                    var type = collection["hdnOperation"];
-                    if (type.ToLower() == "per")
+                    try
                     {
-                        result = Calculator.GetPermutation(inputValues);
-                        resultType = "P";
+                        var result = 0;
+                        var resultType = "";
+                        var type = collection["hdnOperation"];
+                        if (type.ToLower() == "per")
+                        {
+                            result = Calculator.GetPermutation(inputValues);
+                            resultType = "P";
+                        }
+                        else
+                        {
+                            result = Calculator.GetCombination(inputValues);
+                            resultType = "C";
+                        }
+                        ViewBag.Result = string.Format("<sub>{0}</sub>{1}<sub>{2}</sub> = {3}", nn, resultType, rr, result);
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        result = Calculator.GetCombination(inputValues);
-                        resultType = "C";
+                        ViewBag.Result = ex.Message;
+
                     }
-                    ViewBag.Result = string.Format("<sub>{0}</sub>{1}<sub>{2}</sub> = {3}", nn, resultType, rr, result);
                 }
             }
             else
             {
                 ViewBag.Result = "Please enter valid numbers for N and R.";
             }
+
             return View(inputValues);
         }
 
